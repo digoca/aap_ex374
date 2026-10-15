@@ -1,0 +1,34 @@
+---
+- name: Deploy a web application
+  hosts: webservers
+  become: true
+  vars:
+    service: httpd
+    fw_service: http
+    package:
+      - http
+  tasks:
+    - name: Install the webserver
+      ansible.builtin.dnf:
+        name: "{{ package }}"
+
+    - name: Deploy web content
+      ansible.builtin.template:
+        src: templates/index.html.j2
+        dest: "{{ web_dest }}"
+        owner: root
+        group: root
+        mode: "0644"
+
+    - name: Start the webserver
+      ansible.builtin.service:
+        name: "{{ service }}"
+        state: started
+        enabled: true
+
+    - name: Enable the service in the firewall
+      ansible.posix.firewalld:
+        service: "{{ fw_service }}"
+        state: enabled
+        permanent: true
+        immediate: true
