@@ -1,6 +1,6 @@
-[webservers]
-srv04.headless.02-vms-workload.svc.cluster.local
-srv03.headless.02-vms-workload.svc.cluster.local
-[dbservers]
-srv01.headless.02-vms-workload.svc.cluster.local
-srv02.headless.02-vms-workload.svc.cluster.local
+[web]
+athos.headless.wld-dgomez.svc.cluster.local
+[db]
+porthos.headless.wld-dgomez.svc.cluster.local
+[app]
+aramis.headless.wld-dgomez.svc.cluster.local

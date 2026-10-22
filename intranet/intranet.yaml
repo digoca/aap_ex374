@@ -1,0 +1,56 @@
+---
+- name: Enable intranet service
+  hosts: web
+  become: true
+  gather_facts: false
+  tasks:
+    - name: Install software
+      ansible.builtin.dnf:
+        name: 
+          - httpd
+          - firewalld
+        state: present
+
+    - name: Deploy index.html
+      ansible.builtin.copy:
+        content: |
+           Welcome to the example.com intranet!
+        dest: /var/www/html/index.html
+        owner: root
+        group: root
+        mode: "0644"
+
+    - name: Start and enable firewalld
+      ansible.builtin.service:
+        name: firewalld
+        enabled: true
+        state: started
+
+    - name: Allow firewall access
+      ansible.posix.firewalld:
+        service: http
+        permanent: true
+        state: enabled
+        immediate: true
+
+    - name: Start and enable httpd
+      ansible.builtin.service:
+        name: httpd
+        enabled: true
+        state: started
+  
+- name: Test intranet web server
+  hosts: app
+  become: false
+  gather_facts: false
+  tasks:
+    - name: Tes access to intranet web server
+      ansible.builtin.uri:
+        url: http://athos.headless.wld-dgomez.svc.cluster.local
+        return_content: true
+        status_code: 200
+      register: salida
+    - name: show output
+      ansible.builtin.debug:
+        var: salida
+
