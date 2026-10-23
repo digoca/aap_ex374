@@ -1,0 +1,26 @@
+---
+- name: PB instal apache  
+  hosts: web
+  become: true
+  vars:
+    httpd_packages:
+      - httpd
+      - mutt
+      - firewalld
+      - samba
+    services:
+      - httpd
+      - firewalld
+      - rsyslog
+  tasks:
+    - name: Insatall the latest version of apache
+      ansible.builtin.dnf:
+        name: "{{ item }}"
+        state: present
+      loop: "{{ httpd_packages }}"
+    - name: Start and enable services
+      ansible.builtin.service:
+        name: "{{ item }}"
+        state: started
+        enabled: true
+      loop: "{{ services }}"

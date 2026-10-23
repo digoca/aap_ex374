@@ -1,0 +1,9 @@
+fw_ports:
+  - 22/tcp
+  - 8080/tcp
+packages:
+  - rsyslog
+  - firewalld
+services:
+  - firewalld
+

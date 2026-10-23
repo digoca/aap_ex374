@@ -1,0 +1,13 @@
+packages:
+  - httpd
+  - mutt
+  - firewalld
+  - samba
+services:
+   - httpd
+   - firewalld
+   - rsyslog
+fw_services:
+  - http
+fw_ports: []
+  

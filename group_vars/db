@@ -1,0 +1,12 @@
+packages:
+  - mariadb-server
+  - mutt
+  - firewalld
+  - samba
+services:
+   - mariadb
+   - firewalld
+   - rsyslog
+fw_ports:
+  - 3306/TCP
+fw_services: []

@@ -1,0 +1,35 @@
+---
+- name: Instalación generica
+  hosts: all
+  tasks:
+    - name: Instalacion paquetes
+      ansible.builtin.debug:
+        var: item
+      loop: "{{ packages }}"
+      when:
+        - packages is defined
+
+    - name: Activacion servicio
+      ansible.builtin.debug:
+        var: service
+      loop: "{{ services }}"
+      loop_control:
+        loop_var: service
+      when:
+        - services is defined
+
+    - name: fw servicios
+      ansible.builtin.debug:
+        var: fw_service
+      loop: "{{ fw_services }}"
+      loop_control:
+        loop_var: fw_service
+      when:
+        - fw_services is defined
+
+    - name: fw ports
+      ansible.builtin.debug:
+        var: item
+      loop: "{{ fw_ports }}"
+      when:
+        - fw_ports is defined
